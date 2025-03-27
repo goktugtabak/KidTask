@@ -1,3 +1,5 @@
+package domain;
+
 import java.time.LocalDateTime;
 
 public class Task {
@@ -5,11 +7,11 @@ public class Task {
     private String title;
     private String description;
     private LocalDateTime deadline;
+    private int points;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private int points;
-    private TaskStatus status;
     private User assignedBy;
+    private TaskStatus status;
     private int rating;
 
     public Task(int taskID, String title, String description, LocalDateTime deadline, int points, User assignedBy) {
@@ -18,33 +20,67 @@ public class Task {
         this.description = description;
         this.deadline = deadline;
         this.points = points;
-        this.status = TaskStatus.PENDING;
         this.assignedBy = assignedBy;
+        this.status = TaskStatus.PENDING;
+        this.rating = 0;
     }
 
-    public void markAsDone() {
-        this.status = TaskStatus.DONE;
+    // Constructor for tasks that include a start/end time
+    public Task(int taskID, String title, String description, LocalDateTime startTime,
+                LocalDateTime endTime, int points, User assignedBy) {
+        this.taskID = taskID;
+        this.title = title;
+        this.description = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.points = points;
+        this.assignedBy = assignedBy;
+        this.status = TaskStatus.PENDING;
+        this.rating = 0;
     }
 
-    public void approve(int rating) {
-        this.rating = rating;
+    public void markAsComplete() {
+        this.status = TaskStatus.COMPLETED;
+    }
+
+    public void approveTask(int rating) {
         this.status = TaskStatus.APPROVED;
+        this.rating = rating;
     }
 
     public int calculateAwardedPoints(int rating) {
-        return (int) (points * (rating / 5.0));
+        // İstenirse rating'e göre farklı hesaplama yapılabilir.
+        // Şimdilik puanı doğrudan döndürüyoruz.
+        return points;
     }
 
+    // Getter ve Setter'lar
     public int getTaskID() {
         return taskID;
     }
 
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
-    }
-
     public String getTitle() {
         return title;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setAssignedBy(User assignedBy) {
+        this.assignedBy = assignedBy;
+    }
+
+    public User getAssignedBy() {
+        return assignedBy;
+    }
+
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
     }
 
     public void setTitle(String title) {
@@ -67,6 +103,14 @@ public class Task {
         this.deadline = deadline;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -83,32 +127,8 @@ public class Task {
         this.endTime = endTime;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public TaskStatus getStatus() {
-        return status;
-    }
-
     public void setStatus(TaskStatus status) {
         this.status = status;
-    }
-
-    public User getAssignedBy() {
-        return assignedBy;
-    }
-
-    public void setAssignedBy(User assignedBy) {
-        this.assignedBy = assignedBy;
-    }
-
-    public int getRating() {
-        return rating;
     }
 
     public void setRating(int rating) {

@@ -1,3 +1,5 @@
+package domain;
+
 import java.time.LocalDateTime;
 
 public class Wish {
@@ -7,42 +9,57 @@ public class Wish {
     private WishType type;
     private int requiredLevel;
     private boolean approved;
-    private LocalDateTime dateTime;
-    private WishStatus status;
-    private Child requestedBy;
+    private LocalDateTime dateTime;   // ACTIVITY istekleri için
+    private WishStatus wishStatus;
 
-    public Wish(int wishID, String title, String description, WishType type, Child requestedBy) {
+    public Wish(int wishID, String title, String description, WishType type) {
         this.wishID = wishID;
         this.title = title;
         this.description = description;
         this.type = type;
-        this.requestedBy = requestedBy;
-        this.status = WishStatus.PENDING;
+        this.wishStatus = WishStatus.PENDING;
+        this.approved = false;
+        this.requiredLevel = 0;
     }
 
-    public void approve(int requiredLevel) {
+    public Wish(int wishID, String title, String description, WishType type, LocalDateTime dateTime) {
+        this(wishID, title, description, type);
+        this.dateTime = dateTime;
+    }
+
+    public void rejectWish() {
+        this.wishStatus = WishStatus.REJECTED;
+    }
+
+    public void approveWish(int requiredLevel) {
         this.requiredLevel = requiredLevel;
-        this.status = WishStatus.APPROVED;
-    }
-
-    public void reject() {
-        this.status = WishStatus.REJECTED;
+        this.wishStatus = WishStatus.APPROVED;
+        this.approved = true;
     }
 
     public boolean isActivity() {
-        return type == WishType.ACTIVITY;
+        return this.type == WishType.ACTIVITY;
     }
 
+    // Getter & Setter
     public int getWishID() {
         return wishID;
     }
 
-    public void setWishID(int wishID) {
-        this.wishID = wishID;
-    }
-
     public String getTitle() {
         return title;
+    }
+
+    public WishStatus getWishStatus() {
+        return wishStatus;
+    }
+
+    public int getRequiredLevel() {
+        return requiredLevel;
+    }
+
+    public void setWishID(int wishID) {
+        this.wishID = wishID;
     }
 
     public void setTitle(String title) {
@@ -65,10 +82,6 @@ public class Wish {
         this.type = type;
     }
 
-    public int getRequiredLevel() {
-        return requiredLevel;
-    }
-
     public void setRequiredLevel(int requiredLevel) {
         this.requiredLevel = requiredLevel;
     }
@@ -89,19 +102,7 @@ public class Wish {
         this.dateTime = dateTime;
     }
 
-    public WishStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(WishStatus status) {
-        this.status = status;
-    }
-
-    public Child getRequestedBy() {
-        return requestedBy;
-    }
-
-    public void setRequestedBy(Child requestedBy) {
-        this.requestedBy = requestedBy;
+    public void setWishStatus(WishStatus wishStatus) {
+        this.wishStatus = wishStatus;
     }
 }
