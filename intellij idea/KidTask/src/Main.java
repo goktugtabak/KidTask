@@ -1,33 +1,44 @@
 import domain.*;
 import manager.*;
-import file.FileHandler;
-import java.io.File;
+import file.*;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // Basit domain nesneleri
+        // 1) Domain nesnelerini oluştur
         Child child = new Child("C001", "Ahmet", "Child");
         Parent parent = new Parent("P001", "Mehmet", "Parent");
         Teacher teacher = new Teacher("T001", "Ayse", "Teacher");
 
-        // Manager nesneleri
+        // 2) Manager nesneleri
         TaskManager taskManager = new TaskManager();
         WishManager wishManager = new WishManager();
 
-        // FileHandler (txt dosyalarından okuma/yazma ve komut işleme)
-        FileHandler fileHandler = new FileHandler(taskManager, wishManager, child, parent, teacher);
+        // 3) Komutları yönetecek bir sınıf
+        //    (ister FileHandler içindeki parseCommand metodlarını kullanır,
+        //     isterseniz CommandHandler gibi ayrı bir sınıfa da koyabilirsiniz)
+        CommandHandler cmdHandler = new CommandHandler(taskManager, wishManager, child, parent, teacher);
 
-        // tasks.txt ve wishes.txt okunarak başlangıç verilerini yüklüyoruz
-        fileHandler.readTasks("tasks.txt");
-        fileHandler.readWishes("wishes.txt");
+        // 4) Program başlarken commands.txt içindeki komutları uygula
+        //    (örneğin projenin kök dizininde "commands.txt" olduğunu varsayıyoruz)
+        String commandsFilePath = "C:\\Users\\nedim göktuğ tabak\\Desktop\\Software\\intellij idea\\KidTask\\src\\file\\commands.txt";
+        cmdHandler.processCommandsFromFile(commandsFilePath);
 
-        // Ardından commands.txt içindeki komutları işliyoruz
-        fileHandler.processCommands("commands.txt");
+        // 5) Artık kullanıcının konsoldan komut girmesini bekle.
+        //    Kullanıcı "EXIT" yazana kadar parse edip devam et.
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("\nBir komut giriniz (EXIT ile çıkış): ");
+            String inputLine = scanner.nextLine();
+            if (inputLine.equalsIgnoreCase("EXIT")) {
+                System.out.println("Program sonlandırılıyor...");
+                break;
+            }
+            cmdHandler.parseCommand(inputLine);
+        }
 
-        // Son olarak kaydetmek istersek:
-        fileHandler.writeTasks("tasks_out.txt");
-        fileHandler.writeWishes("wishes_out.txt");
-
+        // Son durumda çocuğun durumunu ekrana basalım
         System.out.println("\n=== FINAL STATUS ===");
         System.out.println(child.printStatus());
         System.out.println("Child's tasks: ");
