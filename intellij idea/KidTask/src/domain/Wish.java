@@ -37,6 +37,18 @@ public class Wish {
         this.approved = true;
     }
 
+    public int parsePrice() {
+        // "Price:150TL"  -> 150
+        try {
+            int idx = description.toLowerCase().indexOf("price:");
+            if (idx < 0) return 0;
+            String digits = description.substring(idx + 6)
+                    .replaceAll("[^0-9]", "");
+            return digits.isEmpty() ? 0 : Integer.parseInt(digits);
+        } catch (Exception e) { return 0; }
+    }
+
+
     public boolean isActivity() {
         return this.type == WishType.ACTIVITY;
     }

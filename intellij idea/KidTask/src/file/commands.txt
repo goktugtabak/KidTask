@@ -1,10 +1,26 @@
-ADD_TASK1 T 101 "Math Homework" "Solve pages 10 to 20" 2025-03-01 15:00 10
-ADD_TASK2 F 102 "School Picnic Preparation" "Göksu Park" 2025-03-05 10:00 2025-03-05 12:00 10
-LIST_ALL_TASKS
+// --- TASK flow -------------------------------------------------
+LIST_ALL_TASKS                               // full list
 TASK_DONE 101
-TASK_CHECKED 101 5
-ADD_WISH1 W201 "Lego Set" "Price:150TL"
-ADD_WISH2 W202 "Go to the Cinema" "Price:100TL" 2025-03-07 14:00 2025-03-07 16:00
-WISH_CHECKED W201 APPROVED 2
+TASK_CHECKED 101 4
+LIST_ALL_TASKS D
+LIST_ALL_TASKS W
+
+// --- WISH flow -------------------------------------------------
+ADD_WISH1 W203 "Chess Set" "Price:200TL"
+ADD_WISH2 W204 "Zoo Trip"  "Price:90TL" 2025-04-30 10:00 2025-04-30 14:00
+LIST_ALL_WISHES
+
+// Bütçe ekleyip sonra onay
+ADD_BUDGET_COIN F 250                     // +250 puan
+WISH_CHECKED W203 APPROVED 2
+WISH_CHECKED W204 APPROVED 2
+
+// Seviye yetersiz denemesi
+WISH_CHECKED W201 APPROVED 5              // Level 4 < 5 → reddedilecek
+
+// Reddetme
+WISH_CHECKED W202 REJECTED
+LIST_ALL_WISHES
+
 PRINT_BUDGET
 PRINT_STATUS

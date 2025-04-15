@@ -1,4 +1,2 @@
-W102 "Lego Set" "Price:150TL, Brand:LEGO" PRODUCT
-W103 "Go to the Cinema" "Price:100TL" ACTIVITY "2025-03-07 14:00-16:00"
-W104 "New Book" "Purchase the latest novel" PRODUCT
-W105 "Football Training" "Join the practice session" ACTIVITY "2025-03-08 16:00-18:00"
+W201 "Lego Set"          "Price:150TL"           PRODUCT
+W202 "Go Cinema"         "Price:100TL"           ACTIVITY "2025-05-04 15:00-17:00"
